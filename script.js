@@ -1,13 +1,21 @@
 'use strict';
 
+modal.createNew('Glad to see you', 'Are you ready to start the game?','Game developed by Vadi_kot', 'start').show();
+
 let game = {
     fieldArray: [],
     newFieldArray: [],
-    started: false,
+    state: 'not started',
     fieldWight: 12,
     fieldHeight: 12,
     start(snake) {
-        this.started = true;
+        if (this.state == "not started") {
+            // modal.
+        }
+
+        this.score = 0;
+        this.state = 'started';
+        // modal.style.display = "none";
         console.log(snake);
 
         createFieldArray(this.fieldWight, this.fieldHeight);
@@ -18,7 +26,47 @@ let game = {
 
         showFieldHTML(this.fieldArray);
 
+        modal.close();
         console.log('Game started, good luck!');
+    },
+    restart() {
+
+        if (this.state == "not started") {
+            // modal.
+        }
+
+        this.score = 0;
+        this.state = 'started';
+
+        snake.bodyPositionsArray = [
+            {
+                //  this doesn't working here, only snake
+                x: snake.headPositionX,
+                y: snake.headPositionY,
+            },
+            {
+                x: snake.headPositionX - 1,
+                y: snake.headPositionY,
+            },
+            {
+                x: snake.headPositionX - 2,
+                y: snake.headPositionY,
+            },
+        ];
+
+        console.log(snake);
+        // need to clear the field from the snake and food and than add new ones
+        removeSnakeFromField(game.fieldArray, snake.bodyPositionsArray);
+        addSnakeOnField(game.fieldArray, snake);
+
+        showFieldHTML(game.fieldArray);
+        showFieldInConsole(game.fieldArray);
+
+        modal.close();
+        console.log('Game RESTARTED, good luck!');
+    },
+    over() {
+        modal.createNew('Game Over', `The game was incredible, yor score: ${this.score}`, 'Do you want to try again?', 'end').show();
     },
     score: 0,
 };
@@ -47,7 +95,7 @@ function Snake(ObjGame) {
 
 let snake = new Snake(game);
 
-game.start(snake);
+// game.start(snake);
 
 function createFieldArray(width, height) {
 
@@ -63,54 +111,43 @@ function createFieldArray(width, height) {
 }
 
 function addSnakeOnField(fieldArray, snake) {
-    snake.bodyPositionsArray.forEach((item,index,array) => (index==0) ? fieldArray[item.y][item.x]=1: fieldArray[item.y][item.x]=0);
+    snake.bodyPositionsArray.forEach((item, index, array) => (index == 0) ? fieldArray[item.y][item.x] = 1 : fieldArray[item.y][item.x] = 0);
 }
 
-function updateSnakeBodyPositions(bodyPositionArray) {
+function updateSnakeBodyPositions(bodyPositionArray, direction) {
+    let snaskeBodyArrayLength = bodyPositionArray.length;
 
+    switch (direction) {
+        case 'right' :
+            let newXPosition = bodyPositionArray[0].x + 1;
 
-    // add TAIL before HEAD with new position
-    bodyPositionArray.unshift({
-        x: bodyPositionArray[0].x+1,
-        y: bodyPositionArray[0].y ,
-    })
+            if (newXPosition == game.fieldWight) {
+                game.state = 'game over';
+                game.over();
+            }
+            else {
+                // add TAIL before HEAD with new position
+                bodyPositionArray.unshift({
+                    x: bodyPositionArray[0].x + 1,
+                    y: bodyPositionArray[0].y,
+                })
+            }
 
-    //
-    //delete tail
-    //
-    // delete bodyPositionArray[4-1]
-    // bodyPositionArray = bodyPositionArray.slice(bodyPositionArray.length-1, 1);
-    // console.log(bodyPositionArray[0]=1);
-    console.log(bodyPositionArray);
+            break;
+        case 'top' :
+            // add TAIL before HEAD with new position
+            bodyPositionArray.unshift({
+                x: bodyPositionArray[0].x,
+                y: bodyPositionArray[0].y - 1,
+            })
 
+            break;
 
+    }
 
-    //
-    // NOT Work!!
-    //
-    // bodyPositionArray.splice(bodyPositionArray.length-1, 1);
-
-
-
-    //
-    // Work!! But i need to do this dinamic way, not in 3 elements
-    //
-    bodyPositionArray.splice(3, 1);
-
-
-
-    console.log(bodyPositionArray);
-    // bodyPositionArray[bodyPositionArray.length-1]
-
-
-
-    //
-    // BodyPositionArray.forEach((item,index,array) => {
-    //     array[]
-    //     if (item)
-    //     console.log(item);
-    // });
-    console.log('yep, we update array');
+    // delete tail
+    bodyPositionArray.splice(snaskeBodyArrayLength, 1);
+    //console.log(bodyPositionArray);
 }
 
 function addFoodOnField() {
@@ -120,9 +157,9 @@ function addFoodOnField() {
 function removeSnakeFromField(fieldArray, snakeArray) {
     fieldArray.map((itemColumn, indexColumn) => {
         itemColumn.forEach((itemCeil, indexCeil) => {
-            if (itemCeil== 0 || itemCeil==1) {
+            if (itemCeil == 0 || itemCeil == 1) {
                 console.log(`item: ${itemCeil} with index[${indexColumn}${indexCeil}]`);
-                fieldArray[indexColumn][indexCeil]= null;
+                fieldArray[indexColumn][indexCeil] = null;
                 return null;
             }
         });
@@ -137,62 +174,34 @@ function removeSnakeFromField(fieldArray, snakeArray) {
 }
 
 function move(direcrion) {
-    switch (direcrion) {
-        case 'right' :
-            console.log('right direction selected');
-            ///
-            //work code
-            ///
-            removeSnakeFromField(game.fieldArray, snake.bodyPositionsArray);
-            console.log("---------");
-            console.log(game.fieldArray);
-            console.log("---------");
+    if (game.state != 'game over') {
 
+        // optimize in the ferature
+        removeSnakeFromField(game.fieldArray, snake.bodyPositionsArray);
 
+        switch (direcrion) {
+            case 'right' :
 
-            /////
-            /////   work code!
-            /////
-            updateSnakeBodyPositions(snake.bodyPositionsArray);
-            updateSnakeBodyPositions(snake.bodyPositionsArray);
-            addSnakeOnField(game.fieldArray, snake);
-            // showFieldHTML(game.fieldArray);
+                updateSnakeBodyPositions(snake.bodyPositionsArray, direcrion);
 
+                break;
 
-            // change head position
-            // game.fieldArray[snake.headPositionY][snake.headPositionX] = 0;
-            // snake.headPositionX++;
-            // game.fieldArray[snake.headPositionY][snake.headPositionX] = 1;
-            //
-            // // change tail position
-            // game.fieldArray[snake.tailPositionY][snake.tailPositionX] = null;
-            // snake.tailPositionX++;
+            case 'top' :
 
+                updateSnakeBodyPositions(snake.bodyPositionsArray, direcrion);
 
-            showFieldHTML(game.fieldArray);
-            showFieldInConsole(game.fieldArray);
+                break;
 
-            break;
+        }
+        addSnakeOnField(game.fieldArray, snake);
 
-        case 'top' :
-            console.log('top direction selected');
-
-            // change head position
-            game.fieldArray[snake.headPositionY][snake.headPositionX] = 0;
-            snake.headPositionY--;
-            game.fieldArray[snake.headPositionY][snake.headPositionX] = 1;
-
-            // change tail position
-            game.fieldArray[snake.tailPositionY][snake.tailPositionX] = null;
-            snake.tailPositionY--;
-
-
-            showFieldHTML(game.fieldArray);
-            showFieldInConsole(game.fieldArray);
-
-            break;
+        showFieldHTML(game.fieldArray);
+        showFieldInConsole(game.fieldArray);
+    }
+    else {
 
     }
+
 }
 
 function showFieldInConsole(fieldArray) {
@@ -224,8 +233,6 @@ function copyArray(from, to) {
 // let n =0;
 //
 // let updateFunc = setInterval(update, 1000);
-
-
 
 
 function createFieldHTML(fieldArray) {
@@ -280,4 +287,3 @@ let clickEl = document.querySelector('.h1');
 clickEl.onclick = function test() {
     console.log('work');
 }
-

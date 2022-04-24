@@ -9,12 +9,19 @@
     <link rel="stylesheet" href="style.css" >
 </head>
 <body>
+<!-- The Modal -->
+<div id="modal" class="modal"></div>
 
 <h1 class="h1">Snake</h1>
-<div class="right" onclick="move('top');">top move</div>
-<div class="right" onclick="move('right');">right move</div>
+<div class="buttons-wrap">
+    <div class="right" onclick="move('top');">top move</div>
+    <div class="right" onclick="move('left');">left move</div>
+    <div class="right" onclick="move('right');">right move</div>
+    <div class="right" onclick="move('bottom');">bottom move</div>
+</div>
 <div class="field"></div>
 
+<script src="modal.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
