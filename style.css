@@ -40,12 +40,17 @@ h1 {
 .food {
     background: #da3933 !important;
 }
-
+.buttons-wrap {
+    display: flex;
+    align-items: center;
+}
 .right {
     cursor: pointer;
     border: 1px solid #fff;
+    text-align: center;
     margin: 30px;
-    padding: 5px 10px;
+    width: 60px;
+    padding: 6px 10px
 }
 
 /*****/

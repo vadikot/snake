@@ -1,6 +1,6 @@
 'use strict';
 
-modal.createNew('Glad to see you', 'Are you ready to start the game?','Game developed by Vadi_kot', 'start').show();
+modal.createNew('Glad to see you', 'Are you ready to start the game?', 'Game developed by Vadi_kot', 'start').show();
 
 let game = {
     fieldArray: [],
@@ -116,16 +116,33 @@ function addSnakeOnField(fieldArray, snake) {
 
 function updateSnakeBodyPositions(bodyPositionArray, direction) {
     let snaskeBodyArrayLength = bodyPositionArray.length;
+    let newXPosition;
+    let newYPosition;
 
     switch (direction) {
+        case 'top' :
+            newYPosition = bodyPositionArray[0].y - 1;
+
+            if (newYPosition == -1) {
+                game.state = 'game over';
+                game.over();
+            } else {
+                // add TAIL before HEAD with new position
+                bodyPositionArray.unshift({
+                    x: bodyPositionArray[0].x,
+                    y: bodyPositionArray[0].y - 1,
+                })
+            }
+
+            break;
+
         case 'right' :
-            let newXPosition = bodyPositionArray[0].x + 1;
+            newXPosition = bodyPositionArray[0].x + 1;
 
             if (newXPosition == game.fieldWight) {
                 game.state = 'game over';
                 game.over();
-            }
-            else {
+            } else {
                 // add TAIL before HEAD with new position
                 bodyPositionArray.unshift({
                     x: bodyPositionArray[0].x + 1,
@@ -134,15 +151,39 @@ function updateSnakeBodyPositions(bodyPositionArray, direction) {
             }
 
             break;
-        case 'top' :
-            // add TAIL before HEAD with new position
-            bodyPositionArray.unshift({
-                x: bodyPositionArray[0].x,
-                y: bodyPositionArray[0].y - 1,
-            })
+
+        case 'bottom' :
+            newYPosition = bodyPositionArray[0].y + 1;
+
+            if (newYPosition == game.fieldHeight) {
+                game.state = 'game over';
+                game.over();
+            } else {
+                // add TAIL before HEAD with new position
+                bodyPositionArray.unshift({
+                    x: bodyPositionArray[0].x,
+                    y: bodyPositionArray[0].y +1,
+                })
+            }
 
             break;
 
+        case 'left' :
+            newXPosition = bodyPositionArray[0].x - 1;
+
+
+            if (newXPosition == -1) {
+                game.state = 'game over';
+                game.over();
+            } else {
+                // add TAIL before HEAD with new position
+                bodyPositionArray.unshift({
+                    x: bodyPositionArray[0].x - 1,
+                    y: bodyPositionArray[0].y,
+                })
+            }
+
+            break;
     }
 
     // delete tail
@@ -158,16 +199,16 @@ function removeSnakeFromField(fieldArray, snakeArray) {
     fieldArray.map((itemColumn, indexColumn) => {
         itemColumn.forEach((itemCeil, indexCeil) => {
             if (itemCeil == 0 || itemCeil == 1) {
-                console.log(`item: ${itemCeil} with index[${indexColumn}${indexCeil}]`);
+                // console.log(`item: ${itemCeil} with index[${indexColumn}${indexCeil}]`);
                 fieldArray[indexColumn][indexCeil] = null;
                 return null;
             }
         });
         // return itemColumn.forEach((itemCeil, indexCeil) => console.log(`item: ${itemCeil} with index[${indexColumn}${indexCeil}]`))
     });
-    console.log(fieldArray.forEach(column => column.map(item => {
-        if (item == 1 || item == 0) return 9;
-    })));
+    // console.log(fieldArray.forEach(column => column.map(item => {
+    //     if (item == 1 || item == 0) return 9;
+    // })));
     // console.log(fieldArray.forEach(column => column.map(item => {
     //     if (item == 1 || item == 0) return 9;
     // })));
@@ -180,13 +221,25 @@ function move(direcrion) {
         removeSnakeFromField(game.fieldArray, snake.bodyPositionsArray);
 
         switch (direcrion) {
+            case 'top' :
+
+                updateSnakeBodyPositions(snake.bodyPositionsArray, direcrion);
+
+                break;
+
             case 'right' :
 
                 updateSnakeBodyPositions(snake.bodyPositionsArray, direcrion);
 
                 break;
 
-            case 'top' :
+            case 'bottom' :
+
+                updateSnakeBodyPositions(snake.bodyPositionsArray, direcrion);
+
+                break;
+
+            case 'left' :
 
                 updateSnakeBodyPositions(snake.bodyPositionsArray, direcrion);
 
@@ -197,8 +250,7 @@ function move(direcrion) {
 
         showFieldHTML(game.fieldArray);
         showFieldInConsole(game.fieldArray);
-    }
-    else {
+    } else {
 
     }
 
