@@ -6,24 +6,26 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Snake</title>
-    <link rel="stylesheet" href="style.css" >
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body id="body">
+
 <!-- The Modal -->
 <div id="modal" class="modal"></div>
 
-<h1 class="h1">Snake</h1>
-<div class="buttons-wrap">
-    <div class="right" onclick="move('left');">left</div>
-    <div class="central-buttons">
-        <div class="right" onclick="move('top');">top</div>
-        <div class="right" onclick="move('bottom');">bottom</div>
-    </div>
-    <div class="right" onclick="move('right');">right</div>
+<div class="">
+    <h1 class="h1">Snake</h1>
+    <p class="score">Your score: <b>0</b></p>
 </div>
+
 <div class="field"></div>
 
-<script src="modal.js"></script>
-<script src="script.js"></script>
+<script src="scripts/modal.js"></script>
+<script src="scripts/food.js"></script>
+<script src="scripts/game.js"></script>
+<script src="scripts/snake.js"></script>
+<script src="scripts/app.js"></script>
+
+
 </body>
 </html>

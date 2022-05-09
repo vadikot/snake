@@ -20,9 +20,15 @@ let modal = {
     <!--                                <span class="close" onclick="modal.close();">&times;</span>-->
                                     <h2>${title}</h2>
                                 </div>
-                                <div class="modal-body">
-                                    <p>${bodyText}</p>
-                                    <div class="modal-btn start" onclick="game.start(snake)">Start</div>
+                                <div class="modal-body start">
+                                    <div class="container">
+                                        <p>${bodyText}</p>
+                                        <div class="modal-btn start" onclick="game.start(snake)">Enter to start</div>
+                                    </div>
+                                    <div class="container">
+                                        <p>Control buttons</p>
+                                        <img class="control-buttons" src="img/arrows.png" alt="arrows">
+                                    </div>
                                 </div>
                                 <div class="modal-footer">${footerText}</div>
                               </div>`;
@@ -36,7 +42,7 @@ let modal = {
                                   </div>
                                   <div class="modal-body">
                                     <p>${bodyText}</p>
-                                    <div class="modal-btn start" onclick="game.restart(snake)">Restart</div>
+                                    <div class="modal-btn start" onclick="game.restart(snake)">Enter to restart</div>
                                   </div>
                                   <div class="modal-footer">
                                     <h3>${footerText}</h3>

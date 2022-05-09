@@ -4,17 +4,26 @@ body {
     align-items: center;
     background: #278d8d;
 }
+
 h1 {
     padding: 5px 35px;
     color: #699a43;
     background: #fff;
 }
+.score {
+    text-align: center;
+    color: #fff;
+    font: 18px 'sans-serif';
+}
+
 .field {
     border: 1px solid #fff;
 }
+
 .column {
     display: flex;
 }
+
 .ceil {
     width: 50px;
     height: 50px;
@@ -24,26 +33,46 @@ h1 {
     align-items: center;
     justify-content: center;
 }
+
 .column:nth-child(odd) .ceil:nth-child(odd) {
     /*background: #278d8d;*/
     background: #259a9a;
 }
+
 .column:nth-child(even) .ceil:nth-child(even) {
     background: #259a9a;
 }
+
 .body {
     background: #699a43 !important;
+}
+.body.pink {
+    background: #e008d9 !important;
 }
 .head {
     background: #137c41 !important;
 }
-.food {
+
+.head.pink {
+    background: #ad04a8 !important;
+}
+
+.food.apple {
     background: #da3933 !important;
 }
+
+.food.banana {
+    background: yellow !important;
+}
+.food.kiwi {
+    background: greenyellow !important;
+}
+
 .buttons-wrap {
     display: flex;
     align-items: center;
 }
+
 .right {
     cursor: pointer;
     border: 1px solid #fff;
@@ -66,8 +95,8 @@ h1 {
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
 /* Modal Content/Box */
@@ -110,12 +139,29 @@ h1 {
     padding: 25px;
 }
 
+.modal-body.start {
+    flex-direction: row;
+}
+
+.modal-body .container:first-child {
+    width: 40%;
+}
+
+.modal-body .container:last-child {
+    width: 60%;
+}
+
+.control-buttons {
+    width: 60%;
+}
+
 /* Modal Footer */
 .modal-footer {
     padding: 15px;
     background-color: #5cb85c;
     color: white;
 }
+
 /* Modal Content */
 .modal-content {
     position: relative;
@@ -124,23 +170,30 @@ h1 {
     padding: 0;
     border: 1px solid #888;
     width: 60%;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     animation-name: animatetop;
     animation-duration: 0.4s
 }
+
 .modal-btn {
     background: red;
     padding: 10px 30px;
-    display: flex;
     align-items: center;
     cursor: pointer;
 }
+
 .modal-btn:hover {
     background: #ee3232;
 }
 
 /* Add Animation */
 @keyframes animatetop {
-    from {top: -300px; opacity: 0}
-    to {top: 0; opacity: 1}
+    from {
+        top: -300px;
+        opacity: 0
+    }
+    to {
+        top: 0;
+        opacity: 1
+    }
 }
